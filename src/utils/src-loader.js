@@ -88,43 +88,38 @@ function parseUrl (src) {
  * @param {string|Element} src - URL or element that will be tested.
  * @param {function} onResult - Callback with whether `src` is an image.
  */
-function checkIsImage(src, onResult) {
+function checkIsImage (src, onResult) {
   var request;
 
   if (src.tagName) {
     onResult(src.tagName === 'IMG');
     return;
   }
-
   request = new XMLHttpRequest();
 
-  request.open('HEAD', src);
+  // Try to send GET request to check if image first.
+  request.open('GET', src);
   request.addEventListener('load', function (event) {
     var contentType;
     if (request.status >= 200 && request.status < 300) {
       contentType = request.getResponseHeader('Content-Type');
       if (contentType == null) {
-        onResult(true);  // Modify this part to always return true
+        checkIsImageFallback(src, onResult);
       } else {
         if (contentType.startsWith('image')) {
           onResult(true);
         } else {
-          onResult(true);  // Modify this part to always return true
+          onResult(false);
         }
       }
     } else {
-      onResult(true);  // Modify this part to always return true
+      checkIsImageFallback(src, onResult);
     }
     request.abort();
   });
-  
-  // Try to catch CORS error
-  request.onerror = function() {
-    onResult(true);  // Modify this part to always return true
-  };
-
   request.send();
 }
+
 
 function checkIsImageFallback (src, onResult) {
   var tester = new Image();
