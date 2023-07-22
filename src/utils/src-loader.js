@@ -109,7 +109,7 @@ function checkIsImage (src, onResult) {
         if (contentType.startsWith('image')) {
           onResult(true);
         } else {
-          onResult(false);
+          onResult(true);
         }
       }
     } else {
