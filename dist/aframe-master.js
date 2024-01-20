@@ -30213,7 +30213,7 @@ __webpack_require__(/*! ./core/a-mixin */ "./src/core/a-mixin.js");
 // Extras.
 __webpack_require__(/*! ./extras/components/ */ "./src/extras/components/index.js");
 __webpack_require__(/*! ./extras/primitives/ */ "./src/extras/primitives/index.js");
-console.log('A-Frame Version: 1.4.2 (Date 2023-07-22, Commit #c8db8e63)');
+console.log('A-Frame Version: 1.4.2 (Date 2023-07-22, Commit #fd73bf34)');
 console.log('THREE Version (https://github.com/supermedium/three.js):', pkg.dependencies['super-three']);
 console.log('WebVR Polyfill Version:', pkg.dependencies['webvr-polyfill']);
 module.exports = window.AFRAME = {
@@ -34183,34 +34183,7 @@ function parseUrl(src) {
  * @param {function} onResult - Callback with whether `src` is an image.
  */
 function checkIsImage(src, onResult) {
-  var request;
-  if (src.tagName) {
-    onResult(src.tagName === 'IMG');
-    return;
-  }
-  request = new XMLHttpRequest();
-
-  // Try to send HEAD request to check if image first.
-  request.open('HEAD', src);
-  request.addEventListener('load', function (event) {
-    var contentType;
-    if (request.status >= 200 && request.status < 300) {
-      contentType = request.getResponseHeader('Content-Type');
-      if (contentType == null) {
-        checkIsImageFallback(src, onResult);
-      } else {
-        if (contentType.startsWith('image')) {
-          onResult(true);
-        } else {
-          onResult(true);
-        }
-      }
-    } else {
-      checkIsImageFallback(src, onResult);
-    }
-    request.abort();
-  });
-  request.send();
+  onResult(true);
 }
 function checkIsImageFallback(src, onResult) {
   var tester = new Image();
